@@ -1,0 +1,145 @@
+mql5
+//+------------------------------------------------------------------+
+//|                                         ICT Killzones           |
+//|                                Developer: Forex Robot Easy Team  |
+//|                                Website: forexroboteasy.com       |
+//+------------------------------------------------------------------+
+
+#property copyright 'Forex Robot Easy Team'
+#property link      'forexroboteasy.com'
+
+//+------------------------------------------------------------------+
+//| Custom Indicator initialization function                         |
+//+------------------------------------------------------------------+
+int OnInit()
+{
+    // Set the indicator's parameters
+    IndicatorSetInteger(INDICATOR_DIGITS, 5);
+    IndicatorSetString(INDICATOR_SHORTNAME, 'ICT Killzones');
+
+    return(INIT_SUCCEEDED);
+}
+
+//+------------------------------------------------------------------+
+//| Custom Indicator iteration function                              |
+//+------------------------------------------------------------------+
+int OnCalculate(const int rates_total,
+                const int prev_calculated,
+                const datetime& time[],
+                const double& open[],
+                const double& high[],
+                const double& low[],
+                const double& close[],
+                const long& tick_volume[],
+                const long& volume[],
+                const int& spread[])
+{
+    // Calculate the ICT Killzones
+    for (int i = prev_calculated; i < rates_total; i++)
+    {
+        if (IsAsianOpenKillzone(time[i]))
+        {
+            // Perform actions for Asian Open Killzone
+        }
+        else if (IsLondonOpenKillzone(time[i]))
+        {
+            // Perform actions for London Open Killzone
+        }
+        else if (IsNewYorkOpenKillzone(time[i]))
+        {
+            // Perform actions for New York Open Killzone
+        }
+        else if (IsLondonCloseKillzone(time[i]))
+        {
+            // Perform actions for London Close Killzone
+        }
+        else if (IsLondonOpenSilverBullet(time[i]))
+        {
+            // Perform actions for London Open Silver Bullet
+        }
+        else if (IsNewYorkAMSilverBullet(time[i]))
+        {
+            // Perform actions for New York AM Silver Bullet
+        }
+    }
+
+    return(rates_total);
+}
+
+//+------------------------------------------------------------------+
+//| Check if the given time is within the Asian Open Killzone        |
+//+------------------------------------------------------------------+
+bool IsAsianOpenKillzone(const datetime& time)
+{
+    if (IsWithinTimeRange(time, 18:00, 0:00))
+        return true;
+
+    return false;
+}
+
+//+------------------------------------------------------------------+
+//| Check if the given time is within the London Open Killzone       |
+//+------------------------------------------------------------------+
+bool IsLondonOpenKillzone(const datetime& time)
+{
+    if (IsWithinTimeRange(time, 2:00, 5:00))
+        return true;
+
+    return false;
+}
+
+//+------------------------------------------------------------------+
+//| Check if the given time is within the New York Open Killzone     |
+//+------------------------------------------------------------------+
+bool IsNewYorkOpenKillzone(const datetime& time)
+{
+    if (IsWithinTimeRange(time, 7:00, 9:00))
+        return true;
+
+    return false;
+}
+
+//+------------------------------------------------------------------+
+//| Check if the given time is within the London Close Killzone      |
+//+------------------------------------------------------------------+
+bool IsLondonCloseKillzone(const datetime& time)
+{
+    if (IsWithinTimeRange(time, 10:00, 12:00))
+        return true;
+
+    return false;
+}
+
+//+------------------------------------------------------------------+
+//| Check if the given time is within the London Open Silver Bullet  |
+//+------------------------------------------------------------------+
+bool IsLondonOpenSilverBullet(const datetime& time)
+{
+    if (IsWithinTimeRange(time, 3:00, 4:00))
+        return true;
+
+    return false;
+}
+
+//+------------------------------------------------------------------+
+//| Check if the given time is within the New York AM Silver Bullet  |
+//+------------------------------------------------------------------+
+bool IsNewYorkAMSilverBullet(const datetime& time)
+{
+    // To be determined
+    return false;
+}
+
+//+------------------------------------------------------------------+
+//| Check if the given time is within the specified time range       |
+//+------------------------------------------------------------------+
+bool IsWithinTimeRange(const datetime& time, const int startHour, const int endHour)
+{
+    datetime startTime = TimeGMT(time) + startHour * 3600;
+    datetime endTime = TimeGMT(time) + endHour * 3600;
+
+    if (time >= startTime && time <= endTime)
+        return true;
+
+    return false;
+}
